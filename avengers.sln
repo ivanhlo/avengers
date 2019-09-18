@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "avengers", "avengers\avengers.csproj", "{E3156AEF-D8DB-4AA5-A7F6-656AA872AF15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3156AEF-D8DB-4AA5-A7F6-656AA872AF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3156AEF-D8DB-4AA5-A7F6-656AA872AF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3156AEF-D8DB-4AA5-A7F6-656AA872AF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3156AEF-D8DB-4AA5-A7F6-656AA872AF15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87FAE8BE-31A6-4A07-A126-98A352056B54}
+	EndGlobalSection
+EndGlobal
