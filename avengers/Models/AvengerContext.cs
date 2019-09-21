@@ -4,12 +4,75 @@ namespace avengers.Models
 {
     public class AvengerContext : DbContext
     {
-        public AvengerContext (DbContextOptions<AvengerContext> options)
-            : base(options)
+        public DbSet<Comic> Comics { get; set; }
+        public DbSet<Creador> Creadores { get; set; }
+        public DbSet<Personaje> Personajes { get; set; }
+
+        public AvengerContext (DbContextOptions<AvengerContext> options) : base(options)
         {
         }
 
-        public DbSet<Creator> AvengerItems { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            /*
+             * Atributos de la entidad Comics
+             */
+            modelBuilder.Entity<Comic>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID");
+                entity.Property(e => e.Id_com)
+                    .HasColumnName("ID_com");
+                entity.Property(e => e.Id_per)
+                    .HasColumnName("ID_per");
+                entity.Property(e => e.Tit_com)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+                entity.Property(e => e.Last_sync)
+                    .HasColumnType("smalldatetime");
+            });
+
+            /*
+             * Atributos de la entidad Creadores
+             */
+            modelBuilder.Entity<Creador>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID");
+                entity.Property(e => e.Id_com)
+                    .HasColumnName("ID_com");
+                entity.Property(e => e.Id_per)
+                    .HasColumnName("ID_per");
+                entity.Property(e => e.Rol_cre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                entity.Property(e => e.Nom_cre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            /*
+             * Atributos de la entidad Personajes
+             */
+            modelBuilder.Entity<Personaje>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID");
+                entity.Property(e => e.Id_com)
+                    .HasColumnName("ID_com");
+                entity.Property(e => e.Id_per)
+                    .HasColumnName("ID_per");
+                entity.Property(e => e.Nom_per)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+        }
+
+
     }
 }
 
