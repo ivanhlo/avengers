@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using avengers.Models;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,26 +32,42 @@ namespace avengers.Controllers
                  * si la colection esta vacia, lo que significa que las tablas no se quedarán vacías.
                  */
 
-                _context.Comics.Add(new Comic
+                /*
+                 * Obteniendo información de la API de Marvel Comics para vaciarla en la BD
+                 * Lista de comics filtrada por el id de Iron Man
+                 */
+                string url = "https://gateway.marvel.com:443/v1/public/characters/1009368/comics?ts=1&apikey=a90d074cc0483b65fe3c15a6c9970912&hash=792414c616577193fbe3817ba81822a8";
+                var JsonString = new WebClient().DownloadString(url);           // json como string
+                dynamic JsonObj = JsonConvert.DeserializeObject(JsonString);    // json como objeto
+                foreach(var result in JsonObj.data.results)
                 {
-                    Id_com = 75181,
-                    Id_per = 1009368,
-                    Tit_com = "Decades: Marvel in The '80s - Awesome Evolutions (Trade Paperback)",
-                    Last_sync = DateTime.Today
-                });
-                _context.Creadores.Add(new Creador
-                {
-                    Id_com = 75181,
-                    Id_per = 1009368,
-                    Rol_cre = "penciller",
-                    Nom_cre = "various"
-                });
-                _context.Personajes.Add(new Personaje
-                {
-                    Id_com = 75181,
-                    Id_per = 1009368,
-                    Nom_per = "Captain America"
-                });
+                    _context.Comics.Add(new Comic
+                    {
+                        Id_com = result.id, //75181,
+                        Id_per = 1009368,
+                        Tit_com = result.title, //"Decades: Marvel in The '80s - Awesome Evolutions (Trade Paperback)",
+                        Last_sync = DateTime.Now
+                    });
+                    foreach (var resCreadores in result.creators.items)
+                    {
+                        _context.Creadores.Add(new Creador
+                        {
+                            Id_com = result.id, //75181,
+                            Id_per = 1009368,
+                            Rol_cre = resCreadores.role, //"penciller",
+                            Nom_cre = resCreadores.name //"various"
+                        });
+                    }
+                    foreach(var resPersonajes in result.characters.items)
+                    {
+                        _context.Personajes.Add(new Personaje
+                        {
+                            Id_com = result.id, //75181,
+                            Id_per = 1009368,
+                            Nom_per = resPersonajes.name //"Captain America"
+                        });
+                    }
+                }
                 _context.SaveChanges();
             }
         }
@@ -62,9 +80,9 @@ namespace avengers.Controllers
          *****************************************/
         // GET: marvel/Colaborators
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Personaje>>> GetAvengerItems()
+        public async Task<ActionResult<IEnumerable<Creador>>> GetAvengerItems()
         {
-            return await _context.Personajes.ToListAsync();
+            return await _context.Creadores.ToListAsync();
         }
 
         // GET: marvel/Colaborators/1
