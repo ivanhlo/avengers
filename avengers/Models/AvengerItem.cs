@@ -1,5 +1,7 @@
-﻿using System;
-
+﻿using System; // para la función DateTime
+/*
+ * Modelo de datos con EF Core
+ */
 namespace avengers.Models
 {
     public class Comic

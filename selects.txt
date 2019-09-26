@@ -1,0 +1,25 @@
+colorists_ironman:
+
+SELECT DISTINCT creadores.nom_cre
+FROM creadores
+WHERE (((creadores.id_per)=1009368) AND ((creadores.rol_cre) Like "colorist"))
+ORDER BY creadores.nom_cre;
+
+editors_ironman:
+
+SELECT DISTINCT creadores.nom_cre
+FROM creadores
+WHERE (((creadores.id_per)=1009368) AND ((creadores.rol_cre) Like "colorist"))
+ORDER BY creadores.nom_cre;
+
+writers_ironman:
+
+SELECT DISTINCT creadores.nom_cre
+FROM creadores
+WHERE (((creadores.id_per)=1009368) AND ((creadores.rol_cre) Like "writer"))
+ORDER BY creadores.nom_cre;
+
+4000
+1367 ago
+1514 sep
+-----
