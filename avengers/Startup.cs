@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using avengers.Models;
+//using avengers.DTO;
 
 namespace avengers
 {
@@ -13,6 +14,10 @@ namespace avengers
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            /*
+             * Agregando DTOs
+             */
+            //AutoMapperConfiguration.Configure();
         }
 
         public IConfiguration Configuration { get; }
@@ -20,6 +25,12 @@ namespace avengers
         // Este método es llamado por el tiempo de ejecución. Use este método para agregar servicios al contenedor.
         public void ConfigureServices(IServiceCollection services)
         {
+            /*
+             * Luis Beltrán
+             */
+            services.AddMvc().AddJsonOptions(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddDbContext<AvengerContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
             

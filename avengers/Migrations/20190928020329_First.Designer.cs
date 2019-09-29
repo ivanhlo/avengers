@@ -10,7 +10,7 @@ using avengers.Models;
 namespace avengers.Migrations
 {
     [DbContext(typeof(AvengerContext))]
-    [Migration("20190922003130_First")]
+    [Migration("20190928020329_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,15 +24,7 @@ namespace avengers.Migrations
             modelBuilder.Entity("avengers.Models.Comic", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Id_com")
-                        .HasColumnName("ID_com");
-
-                    b.Property<int>("Id_per")
-                        .HasColumnName("ID_per");
+                        .HasColumnName("ID");
 
                     b.Property<DateTime>("Last_sync")
                         .HasColumnType("smalldatetime");
@@ -57,9 +49,6 @@ namespace avengers.Migrations
                     b.Property<int>("Id_com")
                         .HasColumnName("ID_com");
 
-                    b.Property<int>("Id_per")
-                        .HasColumnName("ID_per");
-
                     b.Property<string>("Nom_cre")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -71,6 +60,8 @@ namespace avengers.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id_com");
 
                     b.ToTable("Creadores");
                 });
@@ -85,9 +76,6 @@ namespace avengers.Migrations
                     b.Property<int>("Id_com")
                         .HasColumnName("ID_com");
 
-                    b.Property<int>("Id_per")
-                        .HasColumnName("ID_per");
-
                     b.Property<string>("Nom_per")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -95,7 +83,25 @@ namespace avengers.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id_com");
+
                     b.ToTable("Personajes");
+                });
+
+            modelBuilder.Entity("avengers.Models.Creador", b =>
+                {
+                    b.HasOne("avengers.Models.Comic", "Comic")
+                        .WithMany("Creador")
+                        .HasForeignKey("Id_com")
+                        .HasConstraintName("FK_Comics_Creadores");
+                });
+
+            modelBuilder.Entity("avengers.Models.Personaje", b =>
+                {
+                    b.HasOne("avengers.Models.Comic", "Comic")
+                        .WithMany("Personaje")
+                        .HasForeignKey("Id_com")
+                        .HasConstraintName("FK_Comics_Personajes");
                 });
 #pragma warning restore 612, 618
         }
