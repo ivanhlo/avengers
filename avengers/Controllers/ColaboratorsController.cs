@@ -90,7 +90,7 @@ namespace avengers.Controllers
 
         // GET: marvel/Colaborators/{character}
         [HttpGet("{nom_per}")]
-        public async Task<ActionResult<List<string>>> GetColaborator(string nom_per)
+        public async Task<ActionResult<string>> GetColaborator(string nom_per)
         {
             /*
              * Selección y validación del personaje del cual se expondrá información
@@ -105,65 +105,77 @@ namespace avengers.Controllers
             /*
              * Consultas para filtrar la información que será expuesta
              */
+             //obteniendo la fecha de la última sincronización
             var LastSync = await _context.Comics
                 .Select(p => p.Last_sync)
                 .Distinct()
                 .ToListAsync();
+            //obteniendo los id de los comics en que está involucrado el personaje
             var IdComics = await _context.Personajes
                 .Where(b =>
                     b.Nom_per.Contains(NomPer))
                 .Select(p => p.Id_com)
                 .Distinct()
                 .ToListAsync();
-            List<string> ListEditors = new List<string>();
-            //string[] Editors = new string[0];
+            //obteniendo editores
             List<string> Editors = new List<string>();
-            //int c = 0;
             foreach (var i in IdComics)
             {
-                ListEditors = await _context.Creadores
+                var Lista = await _context.Creadores
                     .Where(b =>
                         b.Rol_cre.Contains("editor") &&
                         b.Id_com == i)
                     .Select(p => p.Nom_cre)
                     .Distinct()
                     .ToListAsync();
-                //Array.Resize(ref Editors, Editors.Length + ListEditors.Count());
-                foreach (var j in ListEditors)
+                foreach (var j in Lista)
                 {
                     Editors.Add(j);
-                    //c++;
                 }
             }
-            
-            return Editors.Distinct().ToList();
-            /*
-            var Writers = await _context.Creadores
-                .Where(b =>
-                    b.Rol_cre.Contains("writer")) //&&
-                    //b.Id_per == id_per)
-                .Select(p => p.Nom_cre)
-                .Distinct()
-                .ToListAsync();
-            var Colorists = await _context.Creadores
-                .Where(b =>
-                    b.Rol_cre.Contains("colorist")) //&&
-                    //b.Id_per == id_per)
-                .Select(p => p.Nom_cre)
-                .Distinct()
-                .ToListAsync();
+            //obteniendo escritores
+            List<string> Writers = new List<string>();
+            foreach (var i in IdComics)
+            {
+                var Lista = await _context.Creadores
+                    .Where(b =>
+                        b.Rol_cre.Contains("writer") &&
+                        b.Id_com == i)
+                    .Select(p => p.Nom_cre)
+                    .Distinct()
+                    .ToListAsync();
+                foreach (var j in Lista)
+                {
+                    Writers.Add(j);
+                }
+            }
+            //obteniendo coloristas
+            List<string> Colorists = new List<string>();
+            foreach(var i in IdComics)
+            {
+                var Lista = await _context.Creadores
+                    .Where(b =>
+                        b.Rol_cre.Contains("colorist") &&
+                        b.Id_com == i)
+                    .Select(p => p.Nom_cre)
+                    .Distinct()
+                    .ToListAsync();
+                foreach (var j in Lista)
+                {
+                    Colorists.Add(j);
+                }
+            }
             /*
              * Colección JSON final resultante
-             *//*
+             */
             JObject json =
                 new JObject(
                     new JProperty("last_sync", LastSync[0]),
-                    new JProperty("id_comics", ListEditors));
-                    //new JProperty("editors", Editors),
-                    //new JProperty("writers", Writers),
-                    //new JProperty("colorists", Colorists));
+                    new JProperty("editors", Editors.Distinct().ToList()),
+                    new JProperty("writers", Writers.Distinct().ToList()),
+                    new JProperty("colorists", Colorists.Distinct().ToList()));
 
-            return json.ToString();*/
+            return json.ToString();
         }
 
         /*******************************************
