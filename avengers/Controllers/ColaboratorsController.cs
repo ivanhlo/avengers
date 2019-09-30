@@ -80,7 +80,7 @@ namespace avengers.Controllers
          *****************************************/
         // GET: marvel/Colaborators
         [HttpGet]
-        public async Task<ActionResult<List<Comic>>> GetColaborators()
+        public async Task<ActionResult<IEnumerable<Comic>>> GetColaborators()
         {
             return await _context.Comics
                 .Include(creadores => creadores.Creador)
@@ -126,7 +126,6 @@ namespace avengers.Controllers
                         b.Rol_cre.Contains("editor") &&
                         b.Id_com == i)
                     .Select(p => p.Nom_cre)
-                    .Distinct()
                     .ToListAsync();
                 foreach (var j in Lista)
                 {
@@ -142,7 +141,6 @@ namespace avengers.Controllers
                         b.Rol_cre.Contains("writer") &&
                         b.Id_com == i)
                     .Select(p => p.Nom_cre)
-                    .Distinct()
                     .ToListAsync();
                 foreach (var j in Lista)
                 {
@@ -158,7 +156,6 @@ namespace avengers.Controllers
                         b.Rol_cre.Contains("colorist") &&
                         b.Id_com == i)
                     .Select(p => p.Nom_cre)
-                    .Distinct()
                     .ToListAsync();
                 foreach (var j in Lista)
                 {
