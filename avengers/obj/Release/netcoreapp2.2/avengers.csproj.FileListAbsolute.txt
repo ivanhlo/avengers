@@ -1,0 +1,14 @@
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\bin\Release\netcoreapp2.2\avengers.deps.json
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\bin\Release\netcoreapp2.2\avengers.runtimeconfig.json
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\bin\Release\netcoreapp2.2\avengers.runtimeconfig.dev.json
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\bin\Release\netcoreapp2.2\avengers.dll
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\bin\Release\netcoreapp2.2\avengers.pdb
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.csprojAssemblyReference.cache
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.csproj.CoreCompileInputs.cache
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.RazorAssemblyInfo.cache
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.RazorAssemblyInfo.cs
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.AssemblyInfoInputs.cache
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.AssemblyInfo.cs
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.RazorTargetAssemblyInfo.cache
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.dll
+C:\Users\ihernandezl\OneDrive - Universidad Abierta y a Distancia de México\Learning\NETCore\WebAPIApps\SQL\avengers\avengers\obj\Release\netcoreapp2.2\avengers.pdb
