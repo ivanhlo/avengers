@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using avengers.Models;
-using Newtonsoft.Json; // JsonConvert
-using Newtonsoft.Json.Linq; // JObject
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,21 +14,27 @@ namespace avengers.Controllers
 {
     [Route("marvel/[controller]")]
     [ApiController]
-    public class ColaboratorsController : ControllerBase
+    public class CharactersController : ControllerBase
     {
         /***************************************
          * i n i c i a   c o n s t r u c t o r *
          ***************************************/
         private readonly AvengerContext _context;
 
-        public ColaboratorsController(AvengerContext context)
+        public CharactersController(AvengerContext context)
         {
             _context = context;
 
             if (_context.Comics.Count() == 0 || _context.Creadores.Count() == 0 || _context.Personajes.Count() == 0)
             {
                 /*
-                 * Obteniendo información de la API de Marvel Comics para vaciarla en la BD Marvel
+                 * Para efectos de prueba, se utiliza el constructor para crear un registro en cada tabla
+                 * si la colection esta vacia, lo que significa que las tablas no se quedarán vacías.
+                 */
+
+                /*
+                 * Obteniendo información de la API de Marvel Comics para vaciarla en la BD
+                 * Lista de comics filtrada por el id de Iron Man
                  */
                 int id_per;
                 for (var i=1; i<=2; i++)
@@ -81,16 +86,16 @@ namespace avengers.Controllers
         /*****************************************
          * i n i c i a n   m é t o d o s   G E T *
          *****************************************/
-        // GET: marvel/Colaborators
+        // GET: marvel/Characters
         [HttpGet]
-        public async Task<List<Creador>> GetColaborators()
+        public IEnumerable<Personaje> GetCharacters()
         {
-            return await _context.Creadores.ToListAsync();
+            return _context.Personajes.ToList();
         }
 
-        // GET: marvel/Colaborators/{character}
+        // GET marvel/Characters/{character}
         [HttpGet("{nom_per}")]
-        public async Task<ActionResult<string>> GetColaborator(string nom_per)
+        public async Task<ActionResult<List<String>>> GetCharacter(string nom_per)
         {
             /*
              * Selección y validación del personaje del cual se expondrá información
@@ -104,6 +109,10 @@ namespace avengers.Controllers
                 id_per = 1009220;
             /*
              * Consultas para filtrar la información que será expuesta
+             * SELECT DISTINCT personajes.nom_per, comics.tit_com
+             * FROM (comics INNER JOIN creadores ON comics.id_com = creadores.id_com) INNER JOIN personajes ON comics.id_com = personajes.id_com
+             * WHERE (((personajes.nom_per)<>"Iron Man") AND ((personajes.id_per)=1009368))
+             * ORDER BY personajes.nom_per;
              */
             var LastSync = await _context.Comics
                 .Where(b =>
@@ -111,42 +120,24 @@ namespace avengers.Controllers
                 .Select(p => p.Last_sync)
                 .Distinct()
                 .ToListAsync();
-            var Editors = await _context.Creadores
+            var Editores = await _context.Creadores
                 .Where(b =>
                     b.Rol_cre.Contains("editor") &&
-                    b.Id_per == id_per)
+                    b.Id_per == 1009368)
                 .Select(p => p.Nom_cre)
                 .Distinct()
                 .ToListAsync();
-            var Writers = await _context.Creadores
-                .Where(b =>
-                    b.Rol_cre.Contains("writer") &&
-                    b.Id_per == id_per)
-                .Select(p => p.Nom_cre)
-                .Distinct()
-                .ToListAsync();
-            var Colorists = await _context.Creadores
-                .Where(b =>
-                    b.Rol_cre.Contains("colorist") &&
-                    b.Id_per == id_per)
-                .Select(p => p.Nom_cre)
-                .Distinct()
-                .ToListAsync();
+
+
+
+
             /*
              * Colección JSON final resultante
              */
-            JObject json =
-                new JObject(
-                    new JProperty("last_sync", LastSync[0]),
-                    new JProperty("editors", Editors),
-                    new JProperty("writers", Writers),
-                    new JProperty("colorists", Colorists));
 
-            return json.ToString();
+
+
+            return Editores;
         }
-
-        /*******************************************
-         * t e r m i n a n   m é t o d o s   G E T *
-         *******************************************/
     }
 }

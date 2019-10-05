@@ -71,8 +71,6 @@ namespace avengers.Models
                     .IsUnicode(false);
             });
         }
-
-
     }
 }
 
