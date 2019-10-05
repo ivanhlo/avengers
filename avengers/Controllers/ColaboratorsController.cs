@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,33 @@ namespace avengers.Controllers
         {
             _context = context;
 
-            if (_context.AvengerItems.Count() == 0)
+            if (_context.Comics.Count() == 0 || _context.Creadores.Count() == 0 || _context.Personajes.Count() == 0)
             {
-                // Crea un nuevo elemento si la colection esta vacia, lo que
-                // significa que no se pueden eliminar todos los elementos.
-                _context.AvengerItems.Add(new Creator { Name = "capamerica" });
-                _context.AvengerItems.Add(new Creator { Name = "ironman" });
+                /*
+                 * Para efectos de prueba, se utiliza el constructor para crear un registro en cada tabla
+                 * si la colection esta vacia, lo que significa que las tablas no se quedarán vacías.
+                 */
+
+                _context.Comics.Add(new Comic
+                {
+                    Id_com = 75181,
+                    Id_per = 1009368,
+                    Tit_com = "Decades: Marvel in The '80s - Awesome Evolutions (Trade Paperback)",
+                    Last_sync = DateTime.Today
+                });
+                _context.Creadores.Add(new Creador
+                {
+                    Id_com = 75181,
+                    Id_per = 1009368,
+                    Rol_cre = "penciller",
+                    Nom_cre = "various"
+                });
+                _context.Personajes.Add(new Personaje
+                {
+                    Id_com = 75181,
+                    Id_per = 1009368,
+                    Nom_per = "Captain America"
+                });
                 _context.SaveChanges();
             }
         }
@@ -40,16 +62,16 @@ namespace avengers.Controllers
          *****************************************/
         // GET: marvel/Colaborators
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Creator>>> GetAvengerItems()
+        public async Task<ActionResult<IEnumerable<Personaje>>> GetAvengerItems()
         {
-            return await _context.AvengerItems.ToListAsync();
+            return await _context.Personajes.ToListAsync();
         }
 
         // GET: marvel/Colaborators/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<Creator>> GetCharacterById(long id)
+        public async Task<ActionResult<Personaje>> GetCharacterById(int id)
         {
-            var characterItem = await _context.AvengerItems.FindAsync(id);
+            var characterItem = await _context.Personajes.FindAsync(id);
 
             if (characterItem == null)
             {
