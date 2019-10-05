@@ -10,7 +10,7 @@ using avengers.Models;
 namespace avengers.Migrations
 {
     [DbContext(typeof(AvengerContext))]
-    [Migration("20190921202046_First")]
+    [Migration("20190922003130_First")]
     partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
