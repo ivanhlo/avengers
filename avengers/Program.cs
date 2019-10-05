@@ -19,6 +19,19 @@ namespace avengers
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                // inicio cambio para publicar
+                .UseIISIntegration()
+                .UseKestrel()
+                .UseContentRoot(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location))
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    IHostingEnvironment env = hostingContext.HostingEnvironment;
+                    config.SetBasePath(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                })
+                //fin cambio para publicar
+
                 .UseStartup<Startup>();
     }
 }
