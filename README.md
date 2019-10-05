@@ -1,6 +1,6 @@
 # avengers
 Proyecto de desarrollo de una API web REST que consume la API de Marvel Comics
-y expone las siguientes sevicios:
+y expone las siguientes servicios:
 
 1.	Los editores, escritores y coloristas que han estado involucrados en los cómics
 	tanto de Iron Man como de Capitán América a través de sus respectivos endpoints:
@@ -26,17 +26,6 @@ Un ejemplo de salida de este servicio es el siguiente:
 		"Frank D'ARMATA",...
 	]
 }
-
-Objeto:
-
-public class Colaborators()
-{
-	public string last_sync;
-	public string[] editors;
-	public string[] writers;
-	public string[] colorists;
-}
-
 	
 
 2.	Los heroes con los cuales Iron Man y Capitán América han interactuado en
@@ -68,16 +57,3 @@ Un ejemplo de salida de este servicio es el siguiente:
 	]
 }
 
-JObject rss =
-	new JObject(
-		new JProperty("last_sync", "Fecha de la última sincronización en dd/mm/yyyy hh:mm:ss"),
-		new JProperty("characters",
-			new JArray(
-				from p in posts
-				orderby p.Title
-				select new JObject(
-					new JProperty("character", p.Title),
-					new JProperty("comics",
-						new JArray(
-							from c in p.Categories
-                                    select new JValue(c)))))));
