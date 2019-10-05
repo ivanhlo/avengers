@@ -24,10 +24,10 @@ namespace avengers.Controllers
 
             if (_context.AvengerItems.Count() == 0)
             {
-                // Crea un nuevo TodoItem si la colection esta vacia, lo que
-                // significa que no se pueden eliminar todos los TodoItems.
-                _context.AvengerItems.Add(new AvengerItem { Name = "capamerica" });
-                _context.AvengerItems.Add(new AvengerItem { Name = "ironman" });
+                // Crea un nuevo elemento si la colection esta vacia, lo que
+                // significa que no se pueden eliminar todos los elementos.
+                _context.AvengerItems.Add(new Creator { Name = "capamerica" });
+                _context.AvengerItems.Add(new Creator { Name = "ironman" });
                 _context.SaveChanges();
             }
         }
@@ -40,14 +40,14 @@ namespace avengers.Controllers
          *****************************************/
         // GET: marvel/Colaborators
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AvengerItem>>> GetAvengerItems()
+        public async Task<ActionResult<IEnumerable<Creator>>> GetAvengerItems()
         {
             return await _context.AvengerItems.ToListAsync();
         }
 
-        // GET: marvel/Colaborators/ironman
+        // GET: marvel/Colaborators/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<AvengerItem>> GetCharacterItem(long id)
+        public async Task<ActionResult<Creator>> GetCharacterById(long id)
         {
             var characterItem = await _context.AvengerItems.FindAsync(id);
 
@@ -59,6 +59,19 @@ namespace avengers.Controllers
             return characterItem;
         }
 
+        // GET: marvel/colaborators/ironman
+        /*[HttpGet("{name}")]
+        public async Task<ActionResult<AvengerItem>> GetCharacterByName(string name)
+        {
+            var characterItem = await _context.AvengerItems.FindAsync(name);
+
+            if (characterItem == null)
+            {
+                return NotFound();
+            }
+
+            return characterItem;
+        }*/
         /*******************************************
          * t e r m i n a n   m é t o d o s   G E T *
          *******************************************/
