@@ -32,7 +32,7 @@ namespace avengers.Controllers
                  * Obteniendo información de la API de Marvel Comics para vaciarla en la BD Marvel
                  */
                 int id_per;
-                for (var i=1; i<2; i++)
+                for (var i=1; i<=2; i++)
                 {
                     if (i == 1)
                         id_per = 1009368; // Iron Man
@@ -43,28 +43,33 @@ namespace avengers.Controllers
                     dynamic JsonObj = JsonConvert.DeserializeObject(JsonString);    // json como objeto
                     foreach (var result in JsonObj.data.results)
                     {
-                        _context.Comics.Add(new Comic
+                        int IdCom = result.id;
+                        var ValidaId = _context.Comics.Find(IdCom);
+                        if (ValidaId == null)
                         {
-                            Id = result.id,
-                            Tit_com = result.title,
-                            Last_sync = DateTime.Now
-                        });
-                        foreach (var resCreadores in result.creators.items)
-                        {
-                            _context.Creadores.Add(new Creador
+                            _context.Comics.Add(new Comic
                             {
-                                Id_com = result.id,
-                                Rol_cre = resCreadores.role,
-                                Nom_cre = resCreadores.name
+                                Id = result.id,
+                                Tit_com = result.title,
+                                Last_sync = DateTime.Now
                             });
-                        }
-                        foreach (var resPersonajes in result.characters.items)
-                        {
-                            _context.Personajes.Add(new Personaje
+                            foreach (var resCreadores in result.creators.items)
                             {
-                                Id_com = result.id,
-                                Nom_per = resPersonajes.name
-                            });
+                                _context.Creadores.Add(new Creador
+                                {
+                                    Id_com = result.id,
+                                    Rol_cre = resCreadores.role,
+                                    Nom_cre = resCreadores.name
+                                });
+                            }
+                            foreach (var resPersonajes in result.characters.items)
+                            {
+                                _context.Personajes.Add(new Personaje
+                                {
+                                    Id_com = result.id,
+                                    Nom_per = resPersonajes.name
+                                });
+                            }
                         }
                     }
                 }
