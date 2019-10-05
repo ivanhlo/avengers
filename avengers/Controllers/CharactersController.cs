@@ -50,8 +50,7 @@ namespace avengers.Controllers
                     {
                         _context.Comics.Add(new Comic
                         {
-                            Id_com = result.id,
-                            Id_per = id_per,
+                            Id = result.id,
                             Tit_com = result.title,
                             Last_sync = DateTime.Now
                         });
@@ -60,7 +59,6 @@ namespace avengers.Controllers
                             _context.Creadores.Add(new Creador
                             {
                                 Id_com = result.id,
-                                Id_per = id_per,
                                 Rol_cre = resCreadores.role,
                                 Nom_cre = resCreadores.name
                             });
@@ -70,7 +68,6 @@ namespace avengers.Controllers
                             _context.Personajes.Add(new Personaje
                             {
                                 Id_com = result.id,
-                                Id_per = id_per,
                                 Nom_per = resPersonajes.name
                             });
                         }
@@ -116,14 +113,14 @@ namespace avengers.Controllers
              */
             var LastSync = await _context.Comics
                 .Where(b =>
-                    b.Id_per == id_per)
+                    b.Id == id_per)
                 .Select(p => p.Last_sync)
                 .Distinct()
                 .ToListAsync();
             var Editores = await _context.Creadores
                 .Where(b =>
-                    b.Rol_cre.Contains("editor") &&
-                    b.Id_per == 1009368)
+                    b.Rol_cre.Contains("editor")) //&&
+                    //b.Id_per == 1009368)
                 .Select(p => p.Nom_cre)
                 .Distinct()
                 .ToListAsync();

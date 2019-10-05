@@ -1,0 +1,54 @@
+[
+	{
+		"ID_cómic": 4422,
+		"Título": "Iron Man y el Santo #1",
+		"Actualización": "26/09/2019 20:44:15",
+		"Personajes": [
+			"Nom_per": "Personaje 1",
+			"Nom_per": "Personaje 2",
+			"Nom_per": "Personaje 3"
+		],
+		"Creadores": [
+			{
+				"Nom_cre": "Creador 1",
+				"Rol_cre": "editor"
+			},
+			{
+				"Nom_cre": "Creador 2",
+				"Rol_cre": "writer"
+			},
+			{
+				"Nom_cre": "Creador 3",
+				"Rol_cre": "colorist"
+			},...
+		]
+	},
+	{
+		"ID_cómic": 5536,
+		"Título": "Capitán América y Blue Demon #11",
+		"Actualización": "26/09/2019 20:44:15",
+		"Personajes": [
+			"Nom_per": "Personaje 1",
+			"Nom_per": "Personaje 2",
+			"Nom_per": "Personaje 3",...
+		],
+		"Creadores": [
+			{
+				"Nom_cre": "Creador 1",
+				"Rol_cre": "writer"
+			},
+			{
+				"Nom_cre": "Creador 2",
+				"Rol_cre": "colorist"
+			},
+			{
+				"Nom_cre": "Creador 3",
+				"Rol_cre": "editor"
+			},...
+		]
+	},
+	{
+	},
+	{
+	},...
+]

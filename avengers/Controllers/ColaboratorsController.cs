@@ -32,7 +32,7 @@ namespace avengers.Controllers
                  * Obteniendo información de la API de Marvel Comics para vaciarla en la BD Marvel
                  */
                 int id_per;
-                for (var i=1; i<=2; i++)
+                for (var i=1; i<2; i++)
                 {
                     if (i == 1)
                         id_per = 1009368; // Iron Man
@@ -45,8 +45,7 @@ namespace avengers.Controllers
                     {
                         _context.Comics.Add(new Comic
                         {
-                            Id_com = result.id,
-                            Id_per = id_per,
+                            Id = result.id,
                             Tit_com = result.title,
                             Last_sync = DateTime.Now
                         });
@@ -55,7 +54,6 @@ namespace avengers.Controllers
                             _context.Creadores.Add(new Creador
                             {
                                 Id_com = result.id,
-                                Id_per = id_per,
                                 Rol_cre = resCreadores.role,
                                 Nom_cre = resCreadores.name
                             });
@@ -65,7 +63,6 @@ namespace avengers.Controllers
                             _context.Personajes.Add(new Personaje
                             {
                                 Id_com = result.id,
-                                Id_per = id_per,
                                 Nom_per = resPersonajes.name
                             });
                         }
@@ -83,66 +80,90 @@ namespace avengers.Controllers
          *****************************************/
         // GET: marvel/Colaborators
         [HttpGet]
-        public async Task<List<Creador>> GetColaborators()
+        public async Task<ActionResult<List<Comic>>> GetColaborators()
         {
-            return await _context.Creadores.ToListAsync();
+            return await _context.Comics
+                .Include(creadores => creadores.Creador)
+                .Include(personajes => personajes.Personaje)
+                .ToListAsync();
         }
 
         // GET: marvel/Colaborators/{character}
         [HttpGet("{nom_per}")]
-        public async Task<ActionResult<string>> GetColaborator(string nom_per)
+        public async Task<ActionResult<List<string>>> GetColaborator(string nom_per)
         {
             /*
              * Selección y validación del personaje del cual se expondrá información
              */
-            int id_per;
+            string NomPer;
             if (nom_per != "ironman" && nom_per != "capamerica")
                 return NotFound();
             else if (nom_per == "ironman")
-                id_per = 1009368;
+                NomPer = "Iron Man";
             else
-                id_per = 1009220;
+                NomPer = "Captain America";
             /*
              * Consultas para filtrar la información que será expuesta
              */
             var LastSync = await _context.Comics
-                .Where(b =>
-                    b.Id_per == id_per)
                 .Select(p => p.Last_sync)
                 .Distinct()
                 .ToListAsync();
-            var Editors = await _context.Creadores
+            var IdComics = await _context.Personajes
                 .Where(b =>
-                    b.Rol_cre.Contains("editor") &&
-                    b.Id_per == id_per)
-                .Select(p => p.Nom_cre)
+                    b.Nom_per.Contains(NomPer))
+                .Select(p => p.Id_com)
                 .Distinct()
                 .ToListAsync();
+            List<string> ListEditors = new List<string>();
+            //string[] Editors = new string[0];
+            List<string> Editors = new List<string>();
+            //int c = 0;
+            foreach (var i in IdComics)
+            {
+                ListEditors = await _context.Creadores
+                    .Where(b =>
+                        b.Rol_cre.Contains("editor") &&
+                        b.Id_com == i)
+                    .Select(p => p.Nom_cre)
+                    .Distinct()
+                    .ToListAsync();
+                //Array.Resize(ref Editors, Editors.Length + ListEditors.Count());
+                foreach (var j in ListEditors)
+                {
+                    Editors.Add(j);
+                    //c++;
+                }
+            }
+            
+            return Editors.Distinct().ToList();
+            /*
             var Writers = await _context.Creadores
                 .Where(b =>
-                    b.Rol_cre.Contains("writer") &&
-                    b.Id_per == id_per)
+                    b.Rol_cre.Contains("writer")) //&&
+                    //b.Id_per == id_per)
                 .Select(p => p.Nom_cre)
                 .Distinct()
                 .ToListAsync();
             var Colorists = await _context.Creadores
                 .Where(b =>
-                    b.Rol_cre.Contains("colorist") &&
-                    b.Id_per == id_per)
+                    b.Rol_cre.Contains("colorist")) //&&
+                    //b.Id_per == id_per)
                 .Select(p => p.Nom_cre)
                 .Distinct()
                 .ToListAsync();
             /*
              * Colección JSON final resultante
-             */
+             *//*
             JObject json =
                 new JObject(
                     new JProperty("last_sync", LastSync[0]),
-                    new JProperty("editors", Editors),
-                    new JProperty("writers", Writers),
-                    new JProperty("colorists", Colorists));
+                    new JProperty("id_comics", ListEditors));
+                    //new JProperty("editors", Editors),
+                    //new JProperty("writers", Writers),
+                    //new JProperty("colorists", Colorists));
 
-            return json.ToString();
+            return json.ToString();*/
         }
 
         /*******************************************

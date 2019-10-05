@@ -1,0 +1,54 @@
+{
+	"Compras": [
+		{
+			"ID_compra": 1,
+			"Fecha_compra": "26/09/2019",
+			"Monto": "522",
+			"ID_cliente": 345,
+			"Estado": "Entregado",
+			"Detalle_compra": [
+				{
+					"ID_producto": 200,
+					"Nombre": "Frijol negro",
+					"Unidad": "kg",
+					"Precio_unitario": 32,
+					"Cantidad": 3,
+					"Importe": 96
+				},
+				{
+					"ID_producto": "201",
+					"Nombre": "Arroz",
+					"Unidad": "kg",
+					"Precio_unitario": 25,
+					"Cantidad": 2,
+					"Importe": 50
+				},...
+			]
+		},
+		{
+			"ID_compra": 2,
+			"Fecha_compra": "14/09/2019",
+			"Monto": "231",
+			"ID_cliente": 214,
+			"Estado": "Entregado",
+			"Detalle_compra": [
+				{
+					"ID_producto": 121,
+					"Nombre": "Tomate",
+					"Unidad": "kg",
+					"Precio_unitario": 23,
+					"Cantidad": 1.5,
+					"Importe": 34.5
+				},
+				{
+					"ID_producto": 122,
+					"Nombre": "Cebolla",
+					"Unidad": "kg",
+					"Precio_unitario": 20,
+					"Cantidad": 2,
+					"Importe": 40
+				},...
+			]
+		},...
+	]
+}

@@ -1,4 +1,7 @@
 ﻿using System; // para la función DateTime
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 /*
  * Modelo de datos con EF Core
  */
@@ -6,28 +9,38 @@ namespace avengers.Models
 {
     public class Comic
     {
-        public int Id { get; set; }             // id para la tabla (obligatorio)
-        public int Id_com { get; set; }         // guarda el id del cómic
-        public int Id_per { get; set; }         // guarda el id del personaje del filtro (ironman o capamerica)
+        public Comic()
+        {
+            Personaje = new HashSet<Personaje>();
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }         // guarda el id del cómic
         public string Tit_com { get; set; }     // guarda el título del cómic
         public DateTime Last_sync { get; set; } // guarda la fecha y hora de sincronización
+
+        public ICollection<Personaje> Personaje { get; set; }
+        public ICollection<Creador> Creador { get; set; }
     }
 
     public class Creador
     {
         public int Id { get; set; }             // id para la tabla (obligatorio)
         public int Id_com { get; set; }         // guarda el id del cómic
-        public int Id_per { get; set; }         // guarda el id del personaje del filtro (ironman o capamerica)
-        public string Rol_cre { get; set; }     // guarda el rol del creador (colaborator)
         public string Nom_cre { get; set; }     // guarda el nombre del creador (colaborator)
+        public string Rol_cre { get; set; }     // guarda el rol del creador (colaborator)
+
+        public Comic Comic { get; set; }
     }
 
     public class Personaje
     {
         public int Id { get; set; }             // id para la tabla (obligatorio)
         public int Id_com { get; set; }         // guarda el id del cómic
-        public int Id_per { get; set; }         // guarda el id del personaje del filtro (ironman o capamerica)
         public string Nom_per { get; set; }     // guarda el nombre del persona
+
+        public Comic Comic { get; set; }
     }
 }
 

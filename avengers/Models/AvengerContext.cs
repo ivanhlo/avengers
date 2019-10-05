@@ -21,10 +21,6 @@ namespace avengers.Models
             {
                 entity.Property(e => e.Id)
                     .HasColumnName("ID");
-                entity.Property(e => e.Id_com)
-                    .HasColumnName("ID_com");
-                entity.Property(e => e.Id_per)
-                    .HasColumnName("ID_per");
                 entity.Property(e => e.Tit_com)
                     .IsRequired()
                     .HasMaxLength(255)
@@ -42,16 +38,19 @@ namespace avengers.Models
                     .HasColumnName("ID");
                 entity.Property(e => e.Id_com)
                     .HasColumnName("ID_com");
-                entity.Property(e => e.Id_per)
-                    .HasColumnName("ID_per");
-                entity.Property(e => e.Rol_cre)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
                 entity.Property(e => e.Nom_cre)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+                entity.Property(e => e.Rol_cre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                entity.HasOne(d => d.Comic)
+                    .WithMany(p => p.Creador)
+                    .HasForeignKey(d => d.Id_com)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Comics_Creadores");
             });
 
             /*
@@ -63,12 +62,15 @@ namespace avengers.Models
                     .HasColumnName("ID");
                 entity.Property(e => e.Id_com)
                     .HasColumnName("ID_com");
-                entity.Property(e => e.Id_per)
-                    .HasColumnName("ID_per");
                 entity.Property(e => e.Nom_per)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+                entity.HasOne(d => d.Comic)
+                    .WithMany(p => p.Personaje)
+                    .HasForeignKey(d => d.Id_com)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Comics_Personajes");
             });
         }
     }
